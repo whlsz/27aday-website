@@ -1,0 +1,192 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 700" width="400" height="700">
+  <defs>
+    <!-- Skin gradient -->
+    <linearGradient id="skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F2C9A3"/>
+      <stop offset="100%" stop-color="#E8B88A"/>
+    </linearGradient>
+    <!-- Beard gradient -->
+    <linearGradient id="beard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#C1611A"/>
+      <stop offset="100%" stop-color="#8B3E0F"/>
+    </linearGradient>
+    <!-- Vest gradient -->
+    <linearGradient id="vest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1B3A2A"/>
+      <stop offset="100%" stop-color="#132B1E"/>
+    </linearGradient>
+    <!-- Sweater gradient -->
+    <linearGradient id="sweater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F8F7F4"/>
+      <stop offset="100%" stop-color="#E8E5DF"/>
+    </linearGradient>
+    <!-- Pants gradient -->
+    <linearGradient id="pants" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A3728"/>
+      <stop offset="100%" stop-color="#3A2A1C"/>
+    </linearGradient>
+    <!-- Shoe gradient -->
+    <linearGradient id="shoes" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5C3A1E"/>
+      <stop offset="100%" stop-color="#3D2510"/>
+    </linearGradient>
+    <!-- Cap gradient -->
+    <linearGradient id="cap" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7A8B56"/>
+      <stop offset="100%" stop-color="#5E6B40"/>
+    </linearGradient>
+    <!-- Hair gradient -->
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#C1611A"/>
+      <stop offset="100%" stop-color="#A04D12"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ===== LEGS ===== -->
+  <!-- Left leg -->
+  <path d="M155 520 L148 610 Q147 625 155 630 L170 632 Q180 633 182 625 L185 520Z" fill="url(#pants)" stroke="#2A1E12" stroke-width="2"/>
+  <!-- Right leg -->
+  <path d="M215 520 L218 610 Q219 625 227 630 L242 632 Q252 633 250 625 L248 520Z" fill="url(#pants)" stroke="#2A1E12" stroke-width="2"/>
+
+  <!-- ===== SHOES ===== -->
+  <!-- Left shoe -->
+  <path d="M143 625 Q140 640 130 645 Q125 648 120 647 L118 645 Q115 640 120 636 L148 625 Q155 630 170 632 L175 635 Q170 642 155 643 Q145 643 143 640Z" fill="url(#shoes)" stroke="#2A1E12" stroke-width="2"/>
+  <!-- Right shoe -->
+  <path d="M222 625 Q220 640 230 645 Q235 648 240 647 L242 645 Q245 640 240 636 L218 625 Q227 630 242 632 L237 635 Q240 642 255 643 Q265 643 262 640Z" fill="url(#shoes)" stroke="#2A1E12" stroke-width="2"/>
+
+  <!-- Shoe details - leather stitching -->
+  <path d="M125 642 Q140 638 155 640" fill="none" stroke="#4A2E15" stroke-width="1" stroke-dasharray="3,3"/>
+  <path d="M235 642 Q250 638 260 640" fill="none" stroke="#4A2E15" stroke-width="1" stroke-dasharray="3,3"/>
+
+  <!-- ===== BODY / SWEATER ===== -->
+  <path d="M140 310 Q135 340 135 400 L135 530 Q135 540 145 540 L255 540 Q265 540 265 530 L265 400 Q265 340 260 310Z" fill="url(#sweater)" stroke="#C8C4BC" stroke-width="2"/>
+
+  <!-- Sweater cable knit texture lines -->
+  <path d="M160 330 L160 530" fill="none" stroke="#D8D4CC" stroke-width="1.5"/>
+  <path d="M180 325 L180 530" fill="none" stroke="#D8D4CC" stroke-width="1.5"/>
+  <path d="M200 323 L200 530" fill="none" stroke="#D8D4CC" stroke-width="1.5"/>
+  <path d="M220 325 L220 530" fill="none" stroke="#D8D4CC" stroke-width="1.5"/>
+  <path d="M240 330 L240 530" fill="none" stroke="#D8D4CC" stroke-width="1.5"/>
+
+  <!-- ===== VEST ===== -->
+  <!-- Left vest panel -->
+  <path d="M140 310 Q138 340 138 370 L138 510 Q138 520 148 520 L190 520 L195 310Z" fill="url(#vest)" stroke="#0F2218" stroke-width="2"/>
+  <!-- Right vest panel -->
+  <path d="M260 310 Q262 340 262 370 L262 510 Q262 520 252 520 L210 520 L205 310Z" fill="url(#vest)" stroke="#0F2218" stroke-width="2"/>
+
+  <!-- Vest V opening -->
+  <path d="M195 310 L200 420 L205 310" fill="url(#sweater)" stroke="#C8C4BC" stroke-width="1"/>
+
+  <!-- Vest buttons -->
+  <circle cx="196" cy="380" r="4" fill="#8B7355" stroke="#6B5535" stroke-width="1"/>
+  <circle cx="197" cy="430" r="4" fill="#8B7355" stroke="#6B5535" stroke-width="1"/>
+  <circle cx="198" cy="480" r="4" fill="#8B7355" stroke="#6B5535" stroke-width="1"/>
+
+  <!-- Vest pocket (left) -->
+  <rect x="150" y="380" width="35" height="4" rx="2" fill="#0F2218"/>
+  <path d="M152 384 Q152 405 167 405 Q182 405 182 384" fill="none" stroke="#0F2218" stroke-width="1.5"/>
+
+  <!-- ===== ARMS ===== -->
+  <!-- Left arm (sweater sleeve) -->
+  <path d="M140 320 Q110 340 95 390 Q80 440 85 470 L95 475 Q105 445 115 410 Q130 360 145 340Z" fill="url(#sweater)" stroke="#C8C4BC" stroke-width="2"/>
+  <!-- Right arm (sweater sleeve, holding something) -->
+  <path d="M260 320 Q290 340 305 390 Q315 430 310 460 L300 465 Q300 435 290 405 Q275 355 255 340Z" fill="url(#sweater)" stroke="#C8C4BC" stroke-width="2"/>
+
+  <!-- Left hand -->
+  <path d="M80 465 Q75 475 78 485 Q82 492 90 490 Q98 488 100 480 Q102 472 95 470Z" fill="url(#skin)" stroke="#D4A574" stroke-width="1.5"/>
+
+  <!-- Right hand holding golf flag -->
+  <path d="M298 455 Q292 465 295 475 Q298 482 306 480 Q314 478 315 470 Q316 462 310 458Z" fill="url(#skin)" stroke="#D4A574" stroke-width="1.5"/>
+
+  <!-- Golf flag pole -->
+  <line x1="308" y1="460" x2="308" y2="280" stroke="#8B7355" stroke-width="3" stroke-linecap="round"/>
+  <!-- Flag -->
+  <path d="M308 280 L348 295 L308 310Z" fill="#C11230" stroke="#9E0E26" stroke-width="1"/>
+  <!-- Flag "27" text -->
+  <text x="322" y="300" font-family="Inter,system-ui,sans-serif" font-size="14" font-weight="800" fill="#F8F7F4" text-anchor="middle">27</text>
+
+  <!-- ===== BELT ===== -->
+  <rect x="135" y="515" width="130" height="12" rx="3" fill="#5C3A1E" stroke="#3D2510" stroke-width="1.5"/>
+  <!-- Belt buckle -->
+  <rect x="188" y="513" width="24" height="16" rx="3" fill="#C9A94E" stroke="#A08930" stroke-width="1"/>
+  <rect x="195" y="516" width="10" height="10" rx="1" fill="none" stroke="#A08930" stroke-width="1.5"/>
+
+  <!-- ===== NECK ===== -->
+  <rect x="180" y="290" width="40" height="30" rx="5" fill="url(#skin)" stroke="#D4A574" stroke-width="1"/>
+
+  <!-- ===== HEAD (matches avatar style) ===== -->
+  <!-- Head shape -->
+  <ellipse cx="200" cy="230" rx="72" ry="85" fill="url(#skin)" stroke="#2A1E12" stroke-width="2.5"/>
+
+  <!-- Hair/sideburns -->
+  <path d="M132 210 Q128 240 135 270 Q130 260 130 240 Q128 220 132 200Z" fill="url(#hair)"/>
+  <path d="M268 210 Q272 240 265 270 Q270 260 270 240 Q272 220 268 200Z" fill="url(#hair)"/>
+
+  <!-- Ears -->
+  <ellipse cx="128" cy="235" rx="12" ry="18" fill="url(#skin)" stroke="#2A1E12" stroke-width="2"/>
+  <ellipse cx="272" cy="235" rx="12" ry="18" fill="url(#skin)" stroke="#2A1E12" stroke-width="2"/>
+
+  <!-- ===== BEARD ===== -->
+  <path d="M145 250 Q148 310 200 320 Q252 310 255 250 Q250 280 230 295 Q200 310 170 295 Q150 280 145 250Z" fill="url(#beard)" stroke="#2A1E12" stroke-width="2"/>
+  <!-- Beard texture -->
+  <path d="M160 270 Q165 290 175 300" fill="none" stroke="#A04D12" stroke-width="1"/>
+  <path d="M180 275 Q185 295 190 305" fill="none" stroke="#A04D12" stroke-width="1"/>
+  <path d="M200 278 Q200 298 200 310" fill="none" stroke="#A04D12" stroke-width="1"/>
+  <path d="M220 275 Q215 295 210 305" fill="none" stroke="#A04D12" stroke-width="1"/>
+  <path d="M240 270 Q235 290 225 300" fill="none" stroke="#A04D12" stroke-width="1"/>
+
+  <!-- ===== MUSTACHE ===== -->
+  <path d="M175 255 Q185 248 200 250 Q215 248 225 255 Q220 260 210 258 Q200 262 190 258 Q180 260 175 255Z" fill="#1A1A1A" stroke="#111" stroke-width="1.5"/>
+  <!-- Handlebar curl left -->
+  <path d="M175 255 Q168 258 162 255 Q158 250 162 248" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+  <!-- Handlebar curl right -->
+  <path d="M225 255 Q232 258 238 255 Q242 250 238 248" fill="none" stroke="#1A1A1A" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ===== EYES ===== -->
+  <!-- Left eye -->
+  <ellipse cx="178" cy="220" rx="10" ry="8" fill="white" stroke="#2A1E12" stroke-width="2"/>
+  <circle cx="180" cy="220" r="5" fill="#4A3520"/>
+  <circle cx="182" cy="218" r="2" fill="white"/>
+  <!-- Right eye -->
+  <ellipse cx="222" cy="220" rx="10" ry="8" fill="white" stroke="#2A1E12" stroke-width="2"/>
+  <circle cx="220" cy="220" r="5" fill="#4A3520"/>
+  <circle cx="222" cy="218" r="2" fill="white"/>
+
+  <!-- Eyebrows -->
+  <path d="M165 208 Q175 200 190 205" fill="none" stroke="#2A1E12" stroke-width="3" stroke-linecap="round"/>
+  <path d="M235 208 Q225 200 210 205" fill="none" stroke="#2A1E12" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M197 230 Q200 240 203 230" fill="none" stroke="#D4A574" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Freckles -->
+  <circle cx="165" cy="235" r="2" fill="#C17A4A" opacity="0.6"/>
+  <circle cx="172" cy="240" r="1.5" fill="#C17A4A" opacity="0.6"/>
+  <circle cx="160" cy="242" r="1.5" fill="#C17A4A" opacity="0.6"/>
+  <circle cx="235" cy="235" r="2" fill="#C17A4A" opacity="0.6"/>
+  <circle cx="228" cy="240" r="1.5" fill="#C17A4A" opacity="0.6"/>
+  <circle cx="240" cy="242" r="1.5" fill="#C17A4A" opacity="0.6"/>
+
+  <!-- ===== FLAT CAP ===== -->
+  <path d="M125 200 Q130 160 200 150 Q270 160 275 200 L280 210 Q200 195 120 210Z" fill="url(#cap)" stroke="#2A1E12" stroke-width="2.5"/>
+  <!-- Cap brim -->
+  <path d="M120 210 Q115 205 118 198 Q150 190 200 188 Q250 190 282 198 Q285 205 280 210 Q200 200 120 210Z" fill="#5E6B40" stroke="#2A1E12" stroke-width="2"/>
+  <!-- Cap texture lines -->
+  <path d="M150 170 Q155 162 165 160" fill="none" stroke="#6B7A4E" stroke-width="1"/>
+  <path d="M175 163 Q185 158 200 157" fill="none" stroke="#6B7A4E" stroke-width="1"/>
+  <path d="M220 160 Q235 162 245 168" fill="none" stroke="#6B7A4E" stroke-width="1"/>
+
+  <!-- Golf ball on cap -->
+  <circle cx="200" cy="152" r="12" fill="#F5F5F0" stroke="#DDD" stroke-width="1"/>
+  <!-- Golf ball dimples -->
+  <circle cx="196" cy="148" r="1.5" fill="#E0E0D8"/>
+  <circle cx="204" cy="148" r="1.5" fill="#E0E0D8"/>
+  <circle cx="200" cy="155" r="1.5" fill="#E0E0D8"/>
+  <circle cx="193" cy="153" r="1.5" fill="#E0E0D8"/>
+  <circle cx="207" cy="153" r="1.5" fill="#E0E0D8"/>
+  <circle cx="197" cy="145" r="1" fill="#E0E0D8"/>
+  <circle cx="203" cy="145" r="1" fill="#E0E0D8"/>
+
+  <!-- ===== SUBTLE SMILE (visible through mustache) ===== -->
+  <path d="M190 262 Q200 268 210 262" fill="none" stroke="#C1611A" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://27aday.com/sitemap.xml
