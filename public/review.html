@@ -145,7 +145,7 @@ async function loadPage() {
   grid.innerHTML = '<p style="padding:20px">Loading…</p>';
   let q = sb.from('products_seller_rank')
     .select('id, title, brand, price, discount_pct, image_url, category_slug', { count: page === 0 && !total ? 'exact' : undefined })
-    .eq('is_active', true).not('image_url', 'is', null)
+    .eq('is_active', true).eq('is_junk', false).not('image_url', 'is', null)
     .order('seller_rank', { ascending: false }).order('price', { ascending: false }).order('id')
     .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
   const { data, count, error } = await q;
