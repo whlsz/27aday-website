@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>27aDay — Image Review</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.110.6/dist/umd/supabase.min.js" integrity="sha384-GyhLKJoRcMXYwIJUTyx0/uSPYliVPdRYYXJm3G6zyMjKShNs8jLM7WaLpk8Vr4W/" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8F7F4; color: #0A2F1F; }
+  header { position: sticky; top: 0; z-index: 10; background: #F8F7F4; border-bottom: 1px solid #e5e2da; padding: 12px 16px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  header h1 { font-size: 18px; }
+  header .meta { font-size: 13px; color: #666; flex: 1; }
+  button { cursor: pointer; border: none; border-radius: 8px; font-weight: 600; }
+  .pagebtn { background: #1B3A2A; color: #fff; padding: 8px 14px; font-size: 13px; }
+  .pagebtn:disabled { opacity: .35; cursor: default; }
+  .signout { background: none; color: #999; font-size: 12px; text-decoration: underline; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; padding: 16px; max-width: 1500px; margin: 0 auto; }
+  .card { background: #fff; border: 1px solid #e5e2da; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+  .card.done { opacity: .55; }
+  .imgwrap { aspect-ratio: 1; background: #fff; position: relative; }
+  .imgwrap img { width: 100%; height: 100%; object-fit: contain; padding: 8px; }
+  .disc { position: absolute; top: 8px; right: 8px; background: #C11230; color: #fff; font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px; }
+  .verdict { position: absolute; top: 8px; left: 8px; color: #fff; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px; max-width: 85%; }
+  .v-approve { background: #2D6A4F; } .v-regenerate { background: #C11230; } .v-pass, .v-reject { background: #777; }
+  .body { padding: 10px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .brand { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: #888; }
+  .title { font-size: 13px; line-height: 1.3; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 34px; }
+  .price { font-size: 14px; font-weight: 700; }
+  .actions { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: auto; }
+  .actions button { padding: 7px 2px; font-size: 11.5px; color: #fff; }
+  .b-approve { background: #2D6A4F; } .b-regen { background: #C11230; }
+  .b-pass { background: #fff; color: #555 !important; border: 1px solid #ccc; }
+  .reasons { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .reasons button { padding: 7px 8px; font-size: 11.5px; text-align: left; background: #fff; color: #C11230; border: 1px solid #C11230; }
+  .reasons button:hover { background: #C11230; color: #fff; }
+  .reasons .cancel { border-color: #ccc; color: #888; }
+  #login { max-width: 360px; margin: 12vh auto; background: #fff; border: 1px solid #e5e2da; border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+  #login input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; }
+  #login button { background: #1B3A2A; color: #fff; padding: 12px; font-size: 15px; }
+  #login .err { color: #C11230; font-size: 13px; min-height: 16px; }
+  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0A2F1F; color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<script>
+const SB_URL = 'https://klcbwdwnasezfbvxdmgh.supabase.co';
+const SB_KEY = 'sb_publishable_FtWC6pXNlrxUwbmR3czb3Q_cWkAPSCx';
+const PAGE_SIZE = 100;
+const REASONS = [
+  ['wrong-product', 'Product not accurate'],
+  ['logo-distorted', 'Logo distorted'],
+  ['needs-chip-highlands', 'Chip / Highlands scene'],
+];
+const sb = supabase.createClient(SB_URL, SB_KEY);
+const app = document.getElementById('app');
+let page = 0, total = 0, reviewed = 0;
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = 1;
+  setTimeout(() => t.style.opacity = 0, 2200);
+}
+function esc(s) { return (s || '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function showLogin() {
+  app.innerHTML = `
+    <form id="login">
+      <h1>27aDay Image Review</h1>
+      <input type="email" id="email" placeholder="Email" autocomplete="username" required>
+      <input type="password" id="pw" placeholder="Password" autocomplete="current-password" required>
+      <div class="err" id="err"></div>
+      <button type="submit">Sign in</button>
+    </form>`;
+  document.getElementById('login').onsubmit = async (e) => {
+    e.preventDefault();
+    const { error } = await sb.auth.signInWithPassword({
+      email: document.getElementById('email').value.trim(),
+      password: document.getElementById('pw').value,
+    });
+    if (error) { document.getElementById('err').textContent = error.message; return; }
+    main();
+  };
+}
+
+async function decide(card, p, decision, tags) {
+  const { error } = await sb.from('image_review_feedback').insert({
+    asset_id: p.id, asset_kind: 'product', scope_type: 'asset', scope_key: p.id,
+    product_key: p.id, category: p.category_slug, decision, issue_tags: tags.length ? tags : null,
+  });
+  if (error) { toast('Save failed: ' + error.message); return; }
+  reviewed++;
+  document.getElementById('count').textContent = reviewed + ' reviewed this session';
+  markCard(card, { decision, issue_tags: tags });
+}
+
+function markCard(card, v) {
+  card.classList.add('done');
+  card.querySelector('.verdict')?.remove();
+  const b = document.createElement('div');
+  b.className = 'verdict v-' + v.decision;
+  b.textContent = v.decision + (v.issue_tags && v.issue_tags.length ? ': ' + v.issue_tags.join(', ') : '');
+  card.querySelector('.imgwrap').appendChild(b);
+  const act = card.querySelector('.actions, .reasons');
+  if (act) act.style.visibility = 'hidden';
+  setTimeout(() => { if (act) act.style.visibility = ''; card.querySelectorAll('.reasons').forEach(r => swapActions(card, cardProduct(card))); }, 0);
+}
+
+const productByCard = new WeakMap();
+function cardProduct(card) { return productByCard.get(card); }
+
+function actionButtons(card, p) {
+  const d = document.createElement('div');
+  d.className = 'actions';
+  d.innerHTML = `<button class="b-approve">Approve</button><button class="b-regen">Regen</button><button class="b-pass">Pass</button>`;
+  d.querySelector('.b-approve').onclick = () => decide(card, p, 'approve', []);
+  d.querySelector('.b-pass').onclick = () => decide(card, p, 'pass', []);
+  d.querySelector('.b-regen').onclick = () => {
+    const r = document.createElement('div');
+    r.className = 'reasons';
+    for (const [tag, label] of REASONS) {
+      const b = document.createElement('button');
+      b.textContent = label;
+      b.onclick = () => decide(card, p, 'regenerate', [tag]);
+      r.appendChild(b);
+    }
+    const c = document.createElement('button');
+    c.className = 'cancel'; c.textContent = 'Cancel';
+    c.onclick = () => swapActions(card, p);
+    r.appendChild(c);
+    d.replaceWith(r);
+  };
+  return d;
+}
+function swapActions(card, p) {
+  const cur = card.querySelector('.actions, .reasons');
+  if (cur) cur.replaceWith(actionButtons(card, p));
+}
+
+async function loadPage() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '<p style="padding:20px">Loading…</p>';
+  let q = sb.from('products_seller_rank')
+    .select('id, title, brand, price, discount_pct, image_url, category_slug', { count: page === 0 && !total ? 'exact' : undefined })
+    .eq('is_active', true).not('image_url', 'is', null)
+    .order('seller_rank', { ascending: false }).order('price', { ascending: false }).order('id')
+    .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
+  const { data, count, error } = await q;
+  if (error) { grid.innerHTML = '<p style="padding:20px;color:#C11230">' + esc(error.message) + '</p>'; return; }
+  if (count != null) total = count;
+  document.getElementById('pageinfo').textContent = 'Page ' + (page + 1) + ' of ' + Math.max(1, Math.ceil(total / PAGE_SIZE)) + ' · ' + total + ' products';
+  document.getElementById('prev').disabled = page === 0;
+  document.getElementById('next').disabled = (page + 1) * PAGE_SIZE >= total;
+
+  const ids = data.map(p => p.id);
+  const { data: fb } = await sb.from('image_review_feedback')
+    .select('asset_id, decision, issue_tags, created_at')
+    .in('asset_id', ids).eq('asset_kind', 'product')
+    .order('created_at', { ascending: false });
+  const verdicts = {};
+  for (const row of fb || []) if (!verdicts[row.asset_id]) verdicts[row.asset_id] = row;
+
+  grid.innerHTML = '';
+  for (const p of data) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    productByCard.set(card, p);
+    card.innerHTML = `
+      <div class="imgwrap">
+        <img loading="lazy" src="${esc(p.image_url)}" alt="" onerror="this.style.display='none'">
+        ${(p.discount_pct || 0) >= 5 ? '<div class="disc">-' + p.discount_pct + '%</div>' : ''}
+      </div>
+      <div class="body">
+        <div class="brand">${esc(p.brand) || '—'}</div>
+        <div class="title">${esc(p.title)}</div>
+        <div class="price">${p.price != null ? '$' + Number(p.price).toFixed(2) : ''}</div>
+      </div>`;
+    card.querySelector('.body').appendChild(actionButtons(card, p));
+    if (verdicts[p.id]) markCard(card, verdicts[p.id]);
+    grid.appendChild(card);
+  }
+  window.scrollTo(0, 0);
+}
+
+async function main() {
+  const { data: { session } } = await sb.auth.getSession();
+  if (!session) { showLogin(); return; }
+  app.innerHTML = `
+    <header>
+      <h1>Image Review</h1>
+      <span class="meta"><span id="pageinfo">Loading…</span> · <span id="count">0 reviewed this session</span></span>
+      <button class="pagebtn" id="prev">← Prev</button>
+      <button class="pagebtn" id="next">Next →</button>
+      <button class="signout" id="signout">sign out</button>
+    </header>
+    <div id="grid"></div>
+    <div style="display:flex;justify-content:center;gap:10px;padding:20px">
+      <button class="pagebtn" id="prev2">← Prev</button>
+      <button class="pagebtn" id="next2">Next →</button>
+    </div>`;
+  const go = d => () => { page += d; loadPage(); syncPagers(); };
+  const syncPagers = () => {
+    document.getElementById('prev2').disabled = document.getElementById('prev').disabled;
+    document.getElementById('next2').disabled = document.getElementById('next').disabled;
+  };
+  document.getElementById('prev').onclick = go(-1);
+  document.getElementById('next').onclick = go(1);
+  document.getElementById('prev2').onclick = go(-1);
+  document.getElementById('next2').onclick = go(1);
+  document.getElementById('signout').onclick = async () => { await sb.auth.signOut(); showLogin(); };
+  await loadPage();
+  syncPagers();
+}
+main();
+</script>
+</body>
+</html>

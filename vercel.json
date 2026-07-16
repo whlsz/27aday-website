@@ -1,6 +1,7 @@
 {
   "buildCommand": "npx vite build",
   "outputDirectory": "dist",
+  "cleanUrls": true,
   "headers": [
     {
       "source": "/(.*)",
