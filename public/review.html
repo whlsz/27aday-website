@@ -89,7 +89,7 @@ function showLogin() {
 async function decide(card, p, decision, tags) {
   const { error } = await sb.from('image_review_feedback').insert({
     asset_id: p.id, asset_kind: 'product', scope_type: 'asset', scope_key: p.id,
-    product_key: p.id, category: p.category_slug, decision, issue_tags: tags.length ? tags : null,
+    product_key: p.id, category: p.category_slug, decision, issue_tags: tags,
   });
   if (error) { toast('Save failed: ' + error.message); return; }
   reviewed++;
