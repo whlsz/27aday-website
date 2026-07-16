@@ -57,7 +57,7 @@ const REASONS = [
 ];
 const sb = supabase.createClient(SB_URL, SB_KEY);
 const app = document.getElementById('app');
-let page = 0, total = 0, reviewed = 0;
+let page = 0, total = 0, reviewed = 0, dealsOnly = true;
 
 function toast(msg) {
   const t = document.getElementById('toast');
@@ -144,9 +144,10 @@ async function loadPage() {
   const grid = document.getElementById('grid');
   grid.innerHTML = '<p style="padding:20px">Loading…</p>';
   let q = sb.from('products_seller_rank')
-    .select('id, title, brand, price, discount_pct, image_url, category_slug', { count: page === 0 && !total ? 'exact' : undefined })
-    .eq('is_active', true).eq('is_junk', false).not('image_url', 'is', null)
-    .order('seller_rank', { ascending: false }).order('price', { ascending: false }).order('id')
+    .select('id, title, brand, price, original_price, effective_discount_pct, image_url, category_slug', { count: page === 0 && !total ? 'exact' : undefined })
+    .eq('is_active', true).eq('is_junk', false).not('image_url', 'is', null);
+  if (dealsOnly) q = q.gte('effective_discount_pct', 5);
+  q = q.order('seller_rank', { ascending: false }).order('price', { ascending: false }).order('id')
     .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
   const { data, count, error } = await q;
   if (error) { grid.innerHTML = '<p style="padding:20px;color:#C11230">' + esc(error.message) + '</p>'; return; }
@@ -171,12 +172,15 @@ async function loadPage() {
     card.innerHTML = `
       <div class="imgwrap">
         <img loading="lazy" src="${esc(p.image_url)}" alt="" onerror="this.style.display='none'">
-        ${(p.discount_pct || 0) >= 5 ? '<div class="disc">-' + p.discount_pct + '%</div>' : ''}
+        ${(p.effective_discount_pct || 0) >= 1 ? '<div class="disc">-' + p.effective_discount_pct + '%</div>' : ''}
       </div>
       <div class="body">
         <div class="brand">${esc(p.brand) || '—'}</div>
         <div class="title">${esc(p.title)}</div>
-        <div class="price">${p.price != null ? '$' + Number(p.price).toFixed(2) : ''}</div>
+        <div class="price">${p.price != null ? '$' + Number(p.price).toFixed(2) : ''}
+          ${p.original_price > p.price ? '<s style="color:#aaa;font-weight:400;font-size:12px"> $' + Number(p.original_price).toFixed(2) + '</s>' : ''}
+          ${(p.effective_discount_pct || 0) < 1 ? '<span style="color:#aaa;font-weight:400;font-size:11px"> full price</span>' : ''}
+        </div>
       </div>`;
     card.querySelector('.body').appendChild(actionButtons(card, p));
     if (verdicts[p.id]) markCard(card, verdicts[p.id]);
@@ -192,6 +196,9 @@ async function main() {
     <header>
       <h1>Image Review</h1>
       <span class="meta"><span id="pageinfo">Loading…</span> · <span id="count">0 reviewed this session</span></span>
+      <label style="font-size:13px;display:flex;align-items:center;gap:5px;font-weight:600">
+        <input type="checkbox" id="dealsonly" checked> Deals only (5%+ off)
+      </label>
       <button class="pagebtn" id="prev">← Prev</button>
       <button class="pagebtn" id="next">Next →</button>
       <button class="signout" id="signout">sign out</button>
@@ -211,6 +218,10 @@ async function main() {
   document.getElementById('prev2').onclick = go(-1);
   document.getElementById('next2').onclick = go(1);
   document.getElementById('signout').onclick = async () => { await sb.auth.signOut(); showLogin(); };
+  document.getElementById('dealsonly').onchange = async (e) => {
+    dealsOnly = e.target.checked; page = 0; total = 0;
+    await loadPage(); syncPagers();
+  };
   await loadPage();
   syncPagers();
 }
